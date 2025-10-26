@@ -2,8 +2,8 @@ import { extractCarNames } from '../src/parser';
 
 describe('자동차 이름 분석', () => {
   const cases = [
-    ['빈 문자열', '', ['']],
-    ['공백만', '   ', ['']],
+    ['빈 문자열', '', null],
+    ['공백만', '   ', null],
     ['단일 토큰', 'pobi', ['pobi']],
     ['앞뒤 공백 포함 단일 토큰', '  pobi  ', ['pobi']],
     ['두 토큰 기본', 'pobi,woni', ['pobi', 'woni']],
