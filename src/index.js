@@ -1,4 +1,12 @@
-import App from "./App.js";
+import App from './App.js';
+import { MissionUtils } from '@woowacourse/mission-utils';
 
 const app = new App();
-await app.run();
+
+(async () => {
+  try {
+    await app.run();
+  } catch (err) {
+    MissionUtils.Console.print(err?.message);
+  }
+})();
