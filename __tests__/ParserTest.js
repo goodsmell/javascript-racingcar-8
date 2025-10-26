@@ -1,4 +1,4 @@
-import { parseCarNames } from '../src/parser';
+import { extractCarNames } from '../src/parser';
 
 describe('자동차 이름 분석', () => {
   const cases = [
@@ -16,7 +16,7 @@ describe('자동차 이름 분석', () => {
   ];
 
   test.each(cases)('%s → %j', (_, input, expected) => {
-    const result = parseCarNames(input);
+    const result = extractCarNames(input);
     expect(result).toEqual(expected);
   });
 });
