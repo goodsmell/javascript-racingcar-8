@@ -13,6 +13,8 @@ class App {
     const tryCountInput = await Input.askTryCount();
     Validator.validateAllTryCount(tryCountInput);
 
+    Output.printHeader();
+
     const racing = new Racing();
     const { winners } = racing.start(parseCarName, tryCountInput, (shot) =>
       Output.printRound(shot),
