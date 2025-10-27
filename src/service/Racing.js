@@ -9,6 +9,7 @@ export class Racing {
 
     for (let i = 0; i < tryCount; i++) {
       this.#runRound(cars);
+      this.#emitRound(onRound, cars);
     }
 
     return { winners: cars.winners() };
@@ -21,5 +22,8 @@ export class Racing {
     });
   }
 
-
+  #emitRound(onRound, cars) {
+    if (!onRound) return;
+    onRound(cars, cars.currentSnapShot());
+  }
 }
