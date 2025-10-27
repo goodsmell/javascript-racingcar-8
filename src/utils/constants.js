@@ -13,7 +13,7 @@ export const CAR_NAME_ERRORS = {
   DUPLICATE: '중복된 자동차가 등록되었습니다.',
   EMPTY_TOKEN: '빈 이름이 존재합니다.',
   NAME_TOO_LONG: '자동차 이름이 5자를 초과하였습니다.',
-  TOO_MANY_INPUTS: '너무 많은 자동차가 등록되었습니∂다.',
+  TOO_MANY_INPUTS: '너무 많은 자동차가 등록되었습니다.',
 };
 export const TRY_COUNT_ERRORS = {
   EMPTY: '시도 횟수가 입력되지 않았습니다.',
