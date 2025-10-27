@@ -7,5 +7,7 @@ export const Output = {
     });
     MissionUtils.Console.print('');
   },
-
+  printWinners(names) {
+    MissionUtils.Console.print(`최종 우승자 : ${names.join(', ')}`);
+  },
 };

@@ -18,6 +18,7 @@ class App {
       Output.printRound(shot),
     );
 
+    Output.printWinners(winners);
   }
 }
 
