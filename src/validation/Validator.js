@@ -2,40 +2,57 @@ import { CAR_NAME_ERRORS, TRY_COUNT_ERRORS, ERROR_PREFIX } from '../utils/consta
 
 const MAX_TRY_COUNT = 1000;
 
+const VError = (msg) => new Error(ERROR_PREFIX + msg);
+
 export const Validator = {
-  // ---------------- [Car Names] ----------------
   validateAllCarNames: (carArr) => {
-    Validator.validateEmptyCarNames(carArr);
-    Validator.validateDuplicateCarNames(carArr);
-    Validator.validateCarNameLength(carArr);
+    _ensureArrayNotEmpty(carArr);
+    _ensureNoEmptyToken(carArr);
+    _ensureNameLengthWithin(carArr, 5);
+    _ensureNoDuplicate(carArr);
   },
-
-  validateEmptyCarNames: (carArr) => {
-    if (!carArr) throw new Error(ERROR_PREFIX + CAR_NAME_ERRORS.EMPTY);
-    if (carArr.includes('')) throw new Error(ERROR_PREFIX + CAR_NAME_ERRORS.EMPTY_TOKEN);
-  },
-
-  validateDuplicateCarNames: (carArr) => {
-    const uniqueCarNames = new Set(carArr);
-    if (uniqueCarNames.size !== carArr.length)
-      throw new Error(ERROR_PREFIX + CAR_NAME_ERRORS.DUPLICATE);
-  },
-
-  validateCarNameLength: (carArr) => {
-    if (carArr.some((name) => name.length > 5))
-      throw new Error(ERROR_PREFIX + CAR_NAME_ERRORS.NAME_TOO_LONG);
-  },
-
-  // ---------------- [Try Count] ----------------
 
   validateAllTryCount: (rawTryCount) => {
     const tryCount = String(rawTryCount).trim();
-    if (!tryCount) throw new Error(ERROR_PREFIX + TRY_COUNT_ERRORS.EMPTY);
-    if (!/^[1-9]\d*$/.test(tryCount))
-      throw new Error(ERROR_PREFIX + TRY_COUNT_ERRORS.NOT_POSITIVE_INT);
-    const n = Number(tryCount);
-    if (!Number.isSafeInteger(n) || n > MAX_TRY_COUNT) {
-      throw new Error(ERROR_PREFIX + TRY_COUNT_ERRORS.TOO_MANY_TRY);
-    }
+    _ensureNotBlank(tryCount);
+    _ensurePositiveIntFormat(tryCount);
+    _ensureTryCountRange(tryCount, MAX_TRY_COUNT);
   },
 };
+
+function _ensureArrayNotEmpty(carArr) {
+  if (!Array.isArray(carArr) || carArr.length === 0) {
+    throw VError(CAR_NAME_ERRORS.EMPTY);
+  }
+}
+function _ensureNoEmptyToken(carArr) {
+  if (carArr.includes('')) {
+    throw VError(CAR_NAME_ERRORS.EMPTY_TOKEN);
+  }
+}
+
+function _ensureNameLengthWithin(carArr, max) {
+  if (carArr.some((name) => name.length > max)) {
+    throw VError(CAR_NAME_ERRORS.NAME_TOO_LONG);
+  }
+}
+function _ensureNoDuplicate(carArr) {
+  if (new Set(carArr).size !== carArr.length) {
+    throw VError(CAR_NAME_ERRORS.DUPLICATE);
+  }
+}
+
+function _ensureNotBlank(s) {
+  if (!s) throw VError(TRY_COUNT_ERRORS.EMPTY);
+}
+
+function _ensurePositiveIntFormat(s) {
+  if (!/^[1-9]\d*$/.test(s)) {
+    throw VError(TRY_COUNT_ERRORS.NOT_POSITIVE_INT);
+  }
+}
+function _ensureTryCountRange(s, max) {
+  const n = Number(s);
+  if (!Number.isSafeInteger(n) || n <= 0) throw VError(TRY_COUNT_ERRORS.NOT_POSITIVE_INT);
+  if (n > max) throw VError(TRY_COUNT_ERRORS.TOO_MANY_TRY);
+}
